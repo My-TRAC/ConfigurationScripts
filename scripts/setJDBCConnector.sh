@@ -12,6 +12,12 @@ echo "Adding JDBC SOURCE connector to $URL/connectors"
 echo ""
 echo ""
 
+if [ ! -z "$1" ]                                                                                                                       
+then
+    echo "Overwritting JDBC_SOURCE_CONNECTOR_NAME to $1"
+    JDBC_SOURCE_CONNECTOR_NAME=$1
+fi
+
 CONNECTOR="{ 
 \"name\": \"$JDBC_SOURCE_CONNECTOR_NAME\", 
 \"config\": { 
