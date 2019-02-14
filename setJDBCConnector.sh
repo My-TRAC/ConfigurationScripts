@@ -12,14 +12,14 @@ echo "Adding JDBC SOURCE connector to $URL/connectors"
 echo ""
 echo ""
 
-if [ ! -z "$1" ]                                                                                                                       
-then
-    echo "Overwritting JDBC_SOURCE_CONNECTOR_NAME to $1"
-    JDBC_SOURCE_CONNECTOR_NAME=$1
-fi
+#if [ ! -z "$1" ]                                                                                                                       
+#then
+#    echo "Overwritting JDBC_SOURCE_CONNECTOR_NAME to $1"
+#    JDBC_SOURCE_CONNECTOR_NAME=$1
+#fi
 
 CONNECTOR="{ 
-\"name\": \"$JDBC_SOURCE_CONNECTOR_NAME\", 
+\"name\": \"$1\", 
 \"config\": { 
 \"connector.class\": \"io.confluent.connect.jdbc.JdbcSourceConnector\", 
 \"tasks.max\": 1,

@@ -15,15 +15,15 @@ echo ""
 echo ""
 
 
-if [ ! -z "$1" ]                                                                                                                       
-then
-    echo "Overwritting JDBC_SINK_CONNECTOR_NAME to $1"
-    JDBC_SINK_CONNECTOR_NAME=$1
-fi
+#if [ ! -z "$1" ]                                                                                                                       
+#then
+#    echo "Overwritting JDBC_SINK_CONNECTOR_NAME to $1"
+#    JDBC_SINK_CONNECTOR_NAME=$1
+#fi
 
 
 CONNECTOR="
-{\"name\": \"$JDBC_SINK_CONNECTOR_NAME\", 
+{\"name\": \"$1\", 
 \"config\": {\"connector.class\":\"io.confluent.connect.jdbc.JdbcSinkConnector\", 
 \"tasks.max\":\"1\", 
 \"topics\":\"$SINK_TOPICS\", 
