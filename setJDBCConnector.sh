@@ -29,7 +29,7 @@ CONNECTOR="{
 \"timestamp.column.name\": \"modified\", 
 \"topic.prefix\": \"$2\", 
 \"poll.interval.ms\": 1000,
-\"table.blacklist\":\"ratings\" } 
+\"table.blacklist\":\"$3\" } 
 }"
 
 
