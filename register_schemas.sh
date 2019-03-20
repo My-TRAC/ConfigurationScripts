@@ -49,8 +49,11 @@ for file in data/avro/*.avsc
 do
   BASE_NAME=$(basename $file .avsc)
   echo "Registering schema $BASE_NAME"
+  filedata=$(cat $file | sed "s/\"/\\\\\"/g")
+  filedata=$(echo "{\"schema\" : \"$filedata\"}")
+  echo $filedata > tempfile
   until curl -X POST -H "Content-Type: application/json" \
-  --data "@$file" \
+  --data-binary  @tempfile \
   http://${SCHEMA_REGISTRY_HOST_NAME}:${SCHEMA_REGISTRY_PORT}/subjects/$BASE_NAME/versions
   do
     sleep 5

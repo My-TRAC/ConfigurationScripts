@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-git clone https://github.com/My-TRAC/ConfigurationScripts.git
-./ConfigurationScripts/waitForKafkaConenct.sh
+#git clone https://github.com/My-TRAC/ConfigurationScripts.git
+#./ConfigurationScripts/waitForKafkaConenct.sh
 
 
 echo $CONNECT_BOOTSTRAP_SERVERS

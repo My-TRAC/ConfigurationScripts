@@ -4,12 +4,12 @@
 # 
 
 DEFAULT_SCHEMA_REGISTRY_HOSTNAME=$(docker-machine ip cigo):8081
-SCHEMA_REGISTRY_HOSTNAME=${2:-$DEFAULT_SCHEMA_REGISTRY_HOSTNAME}
+SCHEMA_REGISTRY_HOST_NAME=${2:-$DEFAULT_SCHEMA_REGISTRY_HOST_NAME}
 
 if [[ ! -z $1 ]]
 then
-  echo "Describing schema $1 from $SCHEMA_REGISTRY_HOSTNAME"
-  curl -X GET http://${SCHEMA_REGISTRY_HOSTNAME}/subjects/$1/versions/latest
+  echo "Describing schema $1 from $SCHEMA_REGISTRY_HOST_NAME"
+  curl -X GET http://${SCHEMA_REGISTRY_HOST_NAME}/subjects/$1/versions/latest
   echo ""
 fi
 
