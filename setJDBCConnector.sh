@@ -155,6 +155,7 @@ echo "connector-name = $CONNECTOR_NAME_"
 echo "incrementing-column = $INCREMENTING_COLUMN_"
 echo "timestamp-column = $TIMESTAMP_COLUMN_"
 echo "names = $TOPIC_NAMES_"
+echo "prefix = $TOPIC_PREFIX_"
 echo ""
 echo ""
 
