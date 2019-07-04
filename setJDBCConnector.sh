@@ -75,13 +75,10 @@ do
 			TOPIC_NAMES_="$2"
 			shift # past argument
 			;;
-<<<<<<< HEAD
 		-f|--prefix)
 			TOPIC_PREFIX_="$2"
 			shift # past argument
 			;;
-=======
->>>>>>> d8ac77704d540b5365911c704855598bdf195c54
 	esac
 	shift
 done
@@ -170,11 +167,7 @@ CONNECTOR="{
 \"mode\": \"timestamp+incrementing\", 
 \"incrementing.column.name\": \"$INCREMENTING_COLUMN_\", 
 \"timestamp.column.name\": \"$TIMESTAMP_COLUMN_\", 
-<<<<<<< HEAD
 \"topic.prefix\": \"$TOPIC_PREFIX_\",
-=======
-\"topic.prefix\": \"\",
->>>>>>> d8ac77704d540b5365911c704855598bdf195c54
 \"poll.interval.ms\": 1000,
 \"table.whitelist\":\"$TOPIC_NAMES_\",
 \"transforms\":\"createKey,extractLong\",
