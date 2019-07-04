@@ -16,6 +16,8 @@ function print_usage {
   echo " -t|--timestamp-column <the timestamp column> (required)"
   echo " -n|--names <comma separated list with the topic names to source> (required)"
   echo " -f|--prefix <the prefix to prepend to the toic name> (Default:\"\")"
+  echo " -kp|--kafka-connect-port <kafka-connect port> (Default: 28083)"
+  echo " -mp|--mysql-port <MySQL port> (Default: 3306)"
 }
 
 KAFKA_CONNECT_HOST_=
@@ -28,6 +30,8 @@ INCREMENTING_NAME_=
 TIMESTAMP_NAME_=
 TOPIC_NAMES_=
 TOPIC_PREFIX_=""
+MYSQL_PORT_=3306
+KAFKA_CONNECT_PORT_=28083
 HELP_=
 
 # options parsing
@@ -79,6 +83,14 @@ do
 			TOPIC_PREFIX_="$2"
 			shift # past argument
 			;;
+        -kp|--kafka-connect-port)
+            KAFKA_CONNECT_PORT_="$2"
+            shift #past argument
+            ;;
+        -mp|--mysql-port)
+            MYSQL_PORT_"$2"
+            shift #past argument
+            ;;
 	esac
 	shift
 done
@@ -164,7 +176,7 @@ CONNECTOR="{
 \"config\": { 
 \"connector.class\": \"io.confluent.connect.jdbc.JdbcSourceConnector\", 
 \"tasks.max\": 1,
-\"connection.url\":\"jdbc:mysql://$MYSQL_HOST_/$DATABASE_?user=$USER_&password=$PASSWORD_\", 
+\"connection.url\":\"jdbc:mysql://$MYSQL_HOST_:$MYSQL_PORT_/$DATABASE_?user=$USER_&password=$PASSWORD_\", 
 \"mode\": \"timestamp+incrementing\", 
 \"incrementing.column.name\": \"$INCREMENTING_COLUMN_\", 
 \"timestamp.column.name\": \"$TIMESTAMP_COLUMN_\", 
@@ -181,7 +193,7 @@ CONNECTOR="{
 echo $CONNECTOR | curl -X POST \
   -H "Content-Type: application/json" \
   --data @- \
-  $KAFKA_CONNECT_HOST_/connectors
+  $KAFKA_CONNECT_HOST_:$KAFKA_CONNECT_PORT_/connectors
 
 echo ""
 echo ""
