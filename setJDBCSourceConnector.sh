@@ -14,7 +14,7 @@ function print_usage {
   echo " -c|--connector-name <the name of the connector> (required)"
   echo " -i|--incrementing-column <the incrementing column primary key> (required)"
   echo " -t|--timestamp-column <the timestamp column> (required)"
-  echo " -n|--names <comma separated list with the topic names to source> (required)"
+  echo " -n|--names <comma separated list with the topic names to source> (Default :\"\" //all )"
   echo " -f|--prefix <the prefix to prepend to the toic name> (Default:\"\")"
   echo " -kp|--kafka-connect-port <kafka-connect port> (Default: 28083)"
   echo " -mp|--mysql-port <MySQL port> (Default: 3306)"
@@ -28,7 +28,7 @@ PASSWORD_=
 CONNECTOR_NAME_=
 INCREMENTING_NAME_=
 TIMESTAMP_NAME_=
-TOPIC_NAMES_=
+TOPIC_NAMES_= ""
 TOPIC_PREFIX_=""
 MYSQL_PORT_=3306
 KAFKA_CONNECT_PORT_=28083
@@ -150,11 +150,11 @@ if [[ -z $TIMESTAMP_COLUMN_ ]]; then
   exit 1
 fi
 
-if [[ -z $TOPIC_NAMES_ ]]; then
-  echo "--names not set"
-  print_usage
-  exit 1
-fi
+#if [[ -z $TOPIC_NAMES_ ]]; then
+#  echo "--names not set"
+#  print_usage
+#  exit 1
+#fi
 
 echo ""
 echo "Adding JDBC SOURCE connector with options:"
