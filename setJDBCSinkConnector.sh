@@ -19,6 +19,7 @@ function print_usage {
   echo " -kp|--kafka-connect-port <kafka-connect port> (Default: 28083)"
   echo " -mp|--mysql-port <MySQL port> (Default: 3306)"
   echo " -srp|--schema-registry-port <Schema-Registry port (Default: 8081)"
+  echo " -ac|--auto-creation (Default: flase)"
 }
 
 KAFKA_CONNECT_HOST_=
@@ -34,6 +35,7 @@ MYSQL_PORT_=3306
 KAFKA_CONNECT_PORT_=28083
 SCHEMA_REGISTRY_PORT_=8081
 HELP_=
+AUTO_CREATION_="false"
 
 # options parsing
 while [[ $# > 0 ]]
@@ -90,6 +92,10 @@ do
             ;;
         -srp|--schema-registry-port)
             SCHEMA_REGISTRY_PORT_="$2"
+            shift #past argument
+            ;;
+        -ac|--auto-creation)
+            AUTO_CREATION_="$2"
             shift #past argument
             ;;
 	esac
@@ -168,6 +174,7 @@ echo "password = $PASSWORD_"
 echo "connector-name = $CONNECTOR_NAME_"
 echo "primary-key = $PRIMARY_KEY_NAME_"
 echo "names = $TOPIC_NAMES_"
+echo "auto.create = $AUTO_CREATION_"
 echo ""
 echo ""
 
@@ -184,7 +191,7 @@ CONNECTOR="
 \"value.converter.schema.registry.url\":\"http://$SCHEMA_REGISTRY_HOST_:$SCHEMA_REGISTRY_PORT_\", 
 \"insert.mode\":\"upsert\", 
 \"batch.size\":\"0\", 
-\"auto.create\":\"false\", 
+\"auto.create\":\"$AUTO_CREATION_\", 
 \"pk.mode\":\"record_value\", 
 \"pk.fields\":\"$PRIMARY_KEY_NAME_\" }
 }
