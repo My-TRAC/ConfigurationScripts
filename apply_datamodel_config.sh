@@ -6,7 +6,7 @@
 #
 #
 
-if [[ ! -f $1 ]]
+if [ ! -f $1 ]
 then
   echo "Configuration file $1 does not exist"
   exit 1
