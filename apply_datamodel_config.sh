@@ -16,6 +16,7 @@ source $1
 
 NUM_PARTITIONS=$(kafka-topics --describe --zookeeper zookeeper:32181 --topic _schemas | grep PartitionCount | cut -f 2 | cut -d ":" -f 2)
 
+REPLICATION_FACTOR=$(kafka-topics --describe --zookeeper zookeeper:32181 --topic _schemas | grep ReplicationFactor | cut -f 3 | cut -d ":" -f 2)
 
 for topic in $COMPACTED_TOPICS
 do
@@ -23,5 +24,6 @@ do
     --zookeeper zookeeper:32181 \
     --topic $topic \
     --config  "cleanup.policy=compact" \
-    --partitions $NUM_PARTITIONS
+    --partitions $NUM_PARTITIONS \
+		--replication-factor $REPLICATION_FACTOR
 done
