@@ -18,6 +18,7 @@ function print_usage {
   echo " -n|--names <comma separated list with the topic names to sink> (required)"
   echo " -kp|--kafka-connect-port <kafka-connect port> (Default: 28083)"
   echo " -mp|--mysql-port <MySQL port> (Default: 3306)"
+  echo " -srp|--schema-registry-port <Schema-Registry port (Default: 8081)"
 }
 
 KAFKA_CONNECT_HOST_=
@@ -31,6 +32,7 @@ PRIMARY_KEY_NAME_=
 TOPIC_NAMES_=
 MYSQL_PORT_=3306
 KAFKA_CONNECT_PORT_=28083
+SCHEMA_REGISTRY_PORT_=8081
 HELP_=
 
 # options parsing
@@ -84,6 +86,10 @@ do
             ;;
         -mp|--mysql-port)
             MYSQL_PORT_"$2"
+            shift #past argument
+            ;;
+        -srp|--schema-registry-port)
+            SCHEMA_REGISTRY_PORT_="$2"
             shift #past argument
             ;;
 	esac
@@ -155,7 +161,7 @@ echo ""
 echo "Adding JDBC SINK connector with options:"
 echo "kafka-connect = $KAFKA_CONNECT_HOST_"
 echo "mysql = $MYSQL_HOST_"
-echo "schema-registry = $SCHEMA_REGISTRY_HOST_"
+echo "schema-registry = $SCHEMA_REGISTRY_HOST_:$SCHEMA_REGISTRY_PORT_"
 echo "database = $DATABASE_"
 echo "user = $USER_"
 echo "password = $PASSWORD_"
@@ -173,9 +179,9 @@ CONNECTOR="
 \"topics\":\"$TOPIC_NAMES_\", 
 \"connection.url\":\"jdbc:mysql://$MYSQL_HOST_:$MYSQL_PORT_/$DATABASE_?user=$USER_&password=$PASSWORD_\", 
 \"key.converter\":\"io.confluent.connect.avro.AvroConverter\", 
-\"key.converter.schema.registry.url\":\"http://$SCHEMA_REGISTRY_HOST_\", 
+\"key.converter.schema.registry.url\":\"http://$SCHEMA_REGISTRY_HOST_:$SCHEMA_REGISTRY_PORT_=\", 
 \"value.converter\":\"io.confluent.connect.avro.AvroConverter\", 
-\"value.converter.schema.registry.url\":\"http://$SCHEMA_REGISTRY_HOST_\", 
+\"value.converter.schema.registry.url\":\"http://$SCHEMA_REGISTRY_HOST_:$SCHEMA_REGISTRY_PORT_=\", 
 \"insert.mode\":\"upsert\", 
 \"batch.size\":\"0\", 
 \"auto.create\":\"false\", 
