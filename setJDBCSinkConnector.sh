@@ -15,7 +15,9 @@ function print_usage {
   echo " -p|--password <the password> (required)"
   echo " -c|--connector-name <the name of the connector> (required)"
   echo " -pk|--primary-key <the primary key field name> (required)"
-  echo " -n|--names <comma separated list with the topic names to source> (required)"
+  echo " -n|--names <comma separated list with the topic names to sink> (required)"
+  echo " -kp|--kafka-connect-port <kafka-connect port> (Default: 28083)"
+  echo " -mp|--mysql-port <MySQL port> (Default: 3306)"
 }
 
 KAFKA_CONNECT_HOST_=
@@ -27,6 +29,8 @@ PASSWORD_=
 CONNECTOR_NAME_=
 PRIMARY_KEY_NAME_=
 TOPIC_NAMES_=
+MYSQL_PORT_=3306
+KAFKA_CONNECT_PORT_=28083
 HELP_=
 
 # options parsing
@@ -74,6 +78,14 @@ do
 			TOPIC_NAMES_="$2"
 			shift # past argument
 			;;
+        -kp|--kafka-connect-port)
+            KAFKA_CONNECT_PORT_="$2"
+            shift #past argument
+            ;;
+        -mp|--mysql-port)
+            MYSQL_PORT_"$2"
+            shift #past argument
+            ;;
 	esac
 	shift
 done
@@ -159,7 +171,7 @@ CONNECTOR="
 \"config\": {\"connector.class\":\"io.confluent.connect.jdbc.JdbcSinkConnector\", 
 \"tasks.max\":\"1\", 
 \"topics\":\"$TOPIC_NAMES_\", 
-\"connection.url\":\"jdbc:mysql://$MYSQL_HOST_/$DATABASE_?user=$USER_&password=$PASSWORD_\", 
+\"connection.url\":\"jdbc:mysql://$MYSQL_HOST_:$MYSQL_PORT_/$DATABASE_?user=$USER_&password=$PASSWORD_\", 
 \"key.converter\":\"io.confluent.connect.avro.AvroConverter\", 
 \"key.converter.schema.registry.url\":\"http://$SCHEMA_REGISTRY_HOST_\", 
 \"value.converter\":\"io.confluent.connect.avro.AvroConverter\", 
@@ -174,6 +186,6 @@ CONNECTOR="
 
 echo $CONNECTOR | curl -X POST -H "Content-Type: application/json" \
   --data @- \
-  $KAFKA_CONNECT_HOST_/connectors
+  $KAFKA_CONNECT_HOST_:$KAFKA_CONNECT_PORT_/connectors
   echo ""
   echo ""
