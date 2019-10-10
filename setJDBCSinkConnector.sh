@@ -80,6 +80,7 @@ do
 			;;
 		-n|--names)
 			TOPIC_NAMES_="$2"
+            echo "TOPIC NAMES $TOPIC_NAMES" 
 			shift # past argument
 			;;
         -kp|--kafka-connect-port)
