@@ -79,7 +79,7 @@ do
 			shift # past argument
 			;;
 		-n|--names)
-			TOPIC_NAMES_="$2"
+			TOPIC_NAMES_="\"$2\""
             echo "TOPIC NAMES $TOPIC_NAMES" 
 			shift # past argument
 			;;
