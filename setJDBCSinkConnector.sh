@@ -37,6 +37,17 @@ SCHEMA_REGISTRY_PORT_=8081
 HELP_=
 AUTO_CREATION_="false"
 
+
+#Capture TOPICS
+arguments=$@
+index1=$(echo $arguments | grep -b -o "\-n"  |cut -d: -f1)
+index2=$(echo ${arguments:$index1} | grep -b -o "\-" | head -n1 |cut -d: -f1)
+topics=${arguments:$index1:$index2}
+echo $topics
+
+
+
+
 # options parsing
 while [[ $# > 0 ]]
 do
