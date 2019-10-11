@@ -34,6 +34,16 @@ MYSQL_PORT_=3306
 KAFKA_CONNECT_PORT_=28083
 HELP_=
 
+
+#Capture TOPICS
+arguments=$@
+index1=$(echo $arguments | grep -b -o "\-n"  |cut -d: -f1)
+index1=$(($index1 + 3))
+index2=$(echo ${arguments:$index1} | grep -b -o "\-" | head -n1 |cut -d: -f1)
+index2=$(($index2 - 1))
+TOPIC_NAMES_=${arguments:$index1:$index2}
+
+
 # options parsing
 while [[ $# > 0 ]]
 do
@@ -76,7 +86,7 @@ do
 			shift # past argument
 			;;
 		-n|--names)
-			TOPIC_NAMES_="$2"
+			#TOPIC_NAMES_="$2"
 			shift # past argument
 			;;
 		-f|--prefix)
