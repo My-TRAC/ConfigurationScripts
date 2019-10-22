@@ -41,9 +41,10 @@ AUTO_CREATION_="false"
 #Capture TOPICS
 arguments=$@
 index1=$(echo $arguments | grep -b -o "\-n"  |cut -d: -f1)
+index1=$(($index1 + 3))
 index2=$(echo ${arguments:$index1} | grep -b -o "\-" | head -n1 |cut -d: -f1)
-topics=${arguments:$index1:$index2}
-echo $topics
+index2=$(($index2 - 1))
+TOPIC_NAMES_=${arguments:$index1:$index2}
 
 
 
@@ -90,8 +91,7 @@ do
 			shift # past argument
 			;;
 		-n|--names)
-			TOPIC_NAMES_="\"$2\""
-            echo "TOPIC NAMES $TOPIC_NAMES" 
+			#TOPIC_NAMES_="\"$2\""
 			shift # past argument
 			;;
         -kp|--kafka-connect-port)
