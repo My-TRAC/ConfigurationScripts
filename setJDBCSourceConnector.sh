@@ -37,11 +37,15 @@ HELP_=
 
 #Capture TOPICS
 arguments=$@
+if [[ $arguments == *"-n"* ]]; then
 index1=$(echo $arguments | grep -b -o "\-n"  |cut -d: -f1)
 index1=$(($index1 + 3))
 index2=$(echo ${arguments:$index1} | grep -b -o "\-" | head -n1 |cut -d: -f1)
 index2=$(($index2 - 1))
 TOPIC_NAMES_=${arguments:$index1:$index2}
+else
+	TOPIC_NAMES_=""
+fi
 
 
 # options parsing
